@@ -6,7 +6,13 @@ import {getNewExchangeApi} from "../../../http/exchange";
 
 const Form = () => {
     const dispatch = useAppDispatch()
-    const {currencyOptions, baseExchange, fromCurrency, toCurrency, exchangeRate} = useAppSelector((state) => state.exchange)
+    const {
+        currencyOptions,
+        baseExchange,
+        fromCurrency,
+        toCurrency,
+        exchangeRate
+    } = useAppSelector((state) => state.exchange)
     const optionList = Object.keys(currencyOptions).slice(0, 20)
     const [amount, setAmount] = useState<number>(1)
 
@@ -29,16 +35,11 @@ const Form = () => {
         setAmount(newValue)
     }
 
-    const handleSubmit = (event: FormEvent) => {
-        event.preventDefault()
-
-    }
-
-    if (currencyOptions.length === 0 || !baseExchange ) return <h1>Loading....</h1>
+    if (currencyOptions.length === 0 || !baseExchange) return <h1>Loading....</h1>
 
     return (
         <Suspense fallback={<h1>Loading...</h1>}>
-            <form onSubmit={handleSubmit} className="w-full max-w-2xl">
+            <form className="w-full max-w-2xl">
                 <div className="flex -mx-3 mb-6">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label
@@ -58,13 +59,13 @@ const Form = () => {
                         label='From'
                         onChangeCurrency={handleFromChange}
                         selectedCurrency={fromCurrency}
-                        options={[baseExchange,...optionList]}
+                        options={[baseExchange, ...optionList]}
                     />
                     <Dropdown
                         label='To'
                         onChangeCurrency={handleToChange}
                         selectedCurrency={toCurrency}
-                        options={[baseExchange,...optionList]}
+                        options={[baseExchange, ...optionList]}
                     />
                 </div>
                 <div className="flex flex-wrap items-end -mx-3 mb-2">
