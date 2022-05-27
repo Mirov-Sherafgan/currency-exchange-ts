@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect} from 'react';
+import {useAppDispatch} from "./hooks/useReduxHooks";
+import {Route, Routes} from "react-router-dom";
+import CurrentExchange from "./components/CurrentExchange/CurrentExchange";
+import Exchange from "./components/Exchange/Exchange";
+import Home from "./components/Home";
+import {exchangeApi} from "./http/exchange";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App: React.FC = () => {
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(exchangeApi())
+    }, [])
+
+    return (
+        <React.Fragment>
+            <Routes>
+                <Route path='/' element={<Home/>}>
+                    <Route index element={<CurrentExchange/>}/>
+                    <Route path='exchange' element={<Exchange/>}/>
+                </Route>
+            </Routes>
+        </React.Fragment>
+    )
 }
-
 export default App;
